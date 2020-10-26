@@ -1,5 +1,6 @@
 <template>
     <div class="search-sec">
+        <fa-icon class="search__icon" :icon="['fas', 'search']"/>
         <input v-model="country"
                @input="filterCountries"
                class="search__input form-control"
@@ -32,11 +33,17 @@
         },
         methods: {
             filterCountries() {
-                this.filteredCountries = this.countriesAll.filter((c) => {
-                    return c.name.toLowerCase().startsWith(this.country.toLowerCase())
-                }).map((c) => {
-                    return {"name": c.name, "slug": c.alpha3Code.toLowerCase()}
-                })
+                console.log(this.country.length);
+                if (this.country.length >= 1) {
+
+                    this.filteredCountries = this.countriesAll.filter((c) => {
+                        return c.name.toLowerCase().startsWith(this.country.toLowerCase())
+                    }).map((c) => {
+                        return {"name": c.name, "slug": c.alpha3Code.toLowerCase()}
+                    })
+                } else{
+                    this.filteredCountries = []
+                }
             }
         }
     }
@@ -76,6 +83,14 @@
     }
 
     .search__input {
-        padding-left: 100px;
+        padding-left: 75px;
+    }
+
+    .search__icon {
+        position: absolute;
+        left: 30px;
+        top: 20px;
+        color: var(--color-text);
+        opacity: .5;
     }
 </style>

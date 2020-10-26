@@ -4,7 +4,10 @@
         <!--{{regions}}-->
 
         <div class="dropdown" v-bind:class="{ open : isOpen }">
-            <a class="btn btn-primary dropdown__btn" @click="toggleDropdown()">{{selectTitle}}</a>
+            <a href="#" class="btn btn-primary dropdown__btn"
+               @click="toggleDropdown"
+               @keydown.space.exact.prevent="toggleDropdown"
+            >{{selectTitle}}</a>
             <transition name="fade" appear>
 
                 <ul class="dropdown__menu" v-if="isOpen">
@@ -78,6 +81,7 @@
             toggleDropdown() {
                 this.isOpen = !this.isOpen
             },
+           
             regionListArr(getRegions) {
                 let list = [];
                 list = getRegions.map((item) => {
@@ -92,7 +96,7 @@
     }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
     .dropdown {
 
         display: inline-block;

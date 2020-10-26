@@ -4,7 +4,10 @@
 
             <div class="main-nav">
                 <router-link class="logo-link" to="/">Where in the world</router-link>
-                <a @click="toggleMode" class="mode-link">Dark mode</a>
+                <a @click="toggleMode" class="mode-link">
+                    <fa-icon class="mode-link__icon" :icon="['far', 'moon']" />
+                    Dark mode
+                </a>
             </div>
         </div>
         <div>
@@ -58,5 +61,8 @@
         font-size: 16px;
         font-weight: 600;
         color: var(--color-text);
+    }
+    .mode-link__icon{
+        margin-right: 10px;
     }
 </style>
