@@ -2,7 +2,10 @@
     <div>
         <div class="country-nav">
 
-        <a class="btn btn-primary" @click="$router.go(-1)">back</a>
+        <a href="#" class="btn btn-primary" @click.prevent="$router.go(-1)">
+            <fa-icon class="country-nav__icon" :icon="['fas', 'arrow-left']"/>
+            Back
+        </a>
         </div>
 
         <div v-if="country" class="country__grid">
@@ -72,12 +75,6 @@
             },
 
         },
-        mounted() {
-
-            // this.$http
-            //     .get('https://restcountries.eu/rest/v2/alpha/'+this.$route.params.alpha3Code)
-            //     .then(response => (this.country = response.data))
-        },
         methods: {
             get_country(code) {
                 const country = this.$store.getters.getCountryById(code);
@@ -91,6 +88,9 @@
 <style lang="scss">
     .country-nav{
         padding: 20px 0 80px 0;
+    }
+    .country-nav__icon{
+        margin-right: 10px;
     }
     .country-data {
         display: grid;

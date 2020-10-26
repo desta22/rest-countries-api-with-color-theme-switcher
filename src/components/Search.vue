@@ -2,6 +2,7 @@
     <div class="search-sec">
         <fa-icon class="search__icon" :icon="['fas', 'search']"/>
         <input v-model="country"
+               v-on-clickaway="away"
                @input="filterCountries"
                class="search__input form-control"
                type="text" placeholder="Search for country">
@@ -12,18 +13,19 @@
                 </li>
             </ul>
         </div>
-        <!--{{filteredCountries}}-->
     </div>
 </template>
 
 <script>
+    import {mixin as clickaway} from 'vue-clickaway';
+
     export default {
+        mixins: [clickaway],
         name: "Search",
         data() {
             return {
                 country: '',
                 filteredCountries: []
-                // states:''
             }
         },
         computed: {
@@ -33,18 +35,20 @@
         },
         methods: {
             filterCountries() {
-                console.log(this.country.length);
                 if (this.country.length >= 1) {
-
                     this.filteredCountries = this.countriesAll.filter((c) => {
                         return c.name.toLowerCase().startsWith(this.country.toLowerCase())
                     }).map((c) => {
                         return {"name": c.name, "slug": c.alpha3Code.toLowerCase()}
                     })
-                } else{
+                } else {
                     this.filteredCountries = []
                 }
-            }
+            },
+            away: function () {
+                this.country = '';
+                this.filteredCountries = []
+            },
         }
     }
 </script>
@@ -84,6 +88,8 @@
 
     .search__input {
         padding-left: 75px;
+        background-color: var(--color-bg);
+        color: var(--color-text);
     }
 
     .search__icon {

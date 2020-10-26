@@ -5,9 +5,13 @@
 
         <div class="dropdown" v-bind:class="{ open : isOpen }">
             <a href="#" class="btn btn-primary dropdown__btn"
+               v-on-clickaway="away"
                @click="toggleDropdown"
                @keydown.space.exact.prevent="toggleDropdown"
-            >{{selectTitle}}</a>
+            >
+                {{selectTitle}}
+                <fa-icon class="dropdown__icon" :icon="['fas', iconClass]"/>
+            </a>
             <transition name="fade" appear>
 
                 <ul class="dropdown__menu" v-if="isOpen">
@@ -22,12 +26,15 @@
 </template>
 
 <script>
+    import {mixin as clickaway} from 'vue-clickaway';
 
     export default {
+        mixins: [clickaway],
         name: "RegionSelect",
 
         data() {
             return {
+                iconClass:'chevron-down',
                 isOpen: false,
                 selected: 'all',
                 selectTitle: 'Filter by Region',
@@ -37,11 +44,19 @@
         computed: {
             regions() {
                 return this.regionListArr(this.$store.getters.getRegions);
-            }
+            },
         },
         watch: {
             regions(newValue) {
                 this.regionsList = newValue
+            },
+            isOpen(){
+                if(this.isOpen){
+                    this.iconClass = 'chevron-up'
+                } else {
+                    this.iconClass = 'chevron-down'
+
+                }
             }
         },
         methods: {
@@ -79,9 +94,13 @@
 
             },
             toggleDropdown() {
-                this.isOpen = !this.isOpen
+                this.isOpen = !this.isOpen;
+
             },
-           
+            away: function () {
+                this.isOpen = false;
+
+            },
             regionListArr(getRegions) {
                 let list = [];
                 list = getRegions.map((item) => {
@@ -105,10 +124,20 @@
     }
 
     .btn.dropdown__btn {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         height: 56px;
-        width: 160px;
-        text-align: center;
-        padding: 17px 25px;
+        width: 200px;
+        text-align: left;
+        padding-left: 25px;
+        padding-right: 25px;
+        /*padding: 17px 25px;*/
+    }
+
+    .dropdown__icon {
+        fill: var(--color-text);
     }
 
     .dropdown__menu {
@@ -130,6 +159,9 @@
             &:focus {
                 background-color: var(--color-text);
                 color: var(--color-bg);
+                .dropdown__icon {
+                    fill: var(--color-bg);
+                }
             }
         }
     }
