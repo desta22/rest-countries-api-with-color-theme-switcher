@@ -1,46 +1,74 @@
 import axios from 'axios'
 
+function chunkArray(arr, chunk_size) {
+    var myArray = [...arr]
+    var results = [];
 
-function chunkifyAllCountries(allCountries) {
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunk_size));
+    }
 
-    var result = allCountries.reduce((resultArray, item, index) => {
-        const chunkIndex = Math.floor(index / 8)
-        if (!resultArray[chunkIndex]) {
-            resultArray[chunkIndex] = [] // start a new chunk
-        }
-        resultArray[chunkIndex].push(item)
-        return resultArray
-    }, [])
-    return result;
+    return results;
 }
 
+// function chunkifyAllCountries(allCountries) {
+//     let result;
+//     if (allCountries.length > 8) {
+//         // console.log("allCountries: ", allCountries);
+//          result = allCountries.reduce((resultArray, item, index) => {
+//             const chunkIndex = Math.floor(index / 8)
+//             if (!resultArray[chunkIndex]) {
+//                 resultArray[chunkIndex] = [] // start a new chunk
+//             }
+//             resultArray[chunkIndex].push(item)
+//             return resultArray
+//         }, [])
+//     } else {
+//         // console.log("allCountries: ", allCountries);
+//     result = [allCountries]
+//     }
+//     return result;
+// }
+
+
 function extractRegions(allCountries) {
-   return [...new Set(allCountries.map(country => country.region))]
+    let arr = [...new Set(allCountries.map(country => country.region))];
+    return arr.filter((e) => {
+        return e !== ''
+    })
 }
 
 const countries = {
 
     state: {
 
-        countries: [],
+        countriesAll: [],
         countriesChunk: [],
-        regions: []
+        regions: [],
+        selectedRegion: null,
+        // statesNames:[],
     },
     getters: {
+
         getChunk: (state) => (page_num) => {
             return state.countriesChunk[page_num];
         },
         getCountryById: (state) => (id) => {
-            return state.countries.find(country => country.alpha3Code === id);
+            return state.countriesAll.find(country => country.alpha3Code === id);
         },
         getRegions(state) {
-
             return state.regions
-        }
+        },
+        getAllCountries(state) {
+            return state.countriesAll;
+        },
+        // getStatesNames(state) {
+        //     return state.statesNames
+        // }
     },
     mutations: {
         SET_ALL_COUNTRIES(state, data) {
-            state.countries = data
+            state.countriesAll = data
         },
         SET_ALL_REGIONS(state, data) {
             state.regions = data
@@ -50,18 +78,28 @@ const countries = {
         }
     },
     actions: {
+        getCountriesByRegion({commit}, region) {
+            axios
+                .get('https://restcountries.eu/rest/v2/region/' + region)
+                .then(res => {
+                    const data = res.data;
+                    const allCountries = chunkArray(data, 8);
+                    commit('SET_COUNTRIES_CHUNK', allCountries);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
         getCountries({commit}) {
-            console.log('from getCountries');
             axios
                 .get('https://restcountries.eu/rest/v2/all')
                 .then(res => {
-                    const data = res.data
-                    const allCountries = chunkifyAllCountries(data);
-                    const allRegions = extractRegions(data);
-
+                    const data = res.data;
                     commit('SET_ALL_COUNTRIES', data);
-                    commit('SET_COUNTRIES_CHUNK', allCountries)
-                    commit('SET_ALL_REGIONS', allRegions)
+                    commit('SET_ALL_REGIONS', extractRegions(data));
+
+                    commit('SET_COUNTRIES_CHUNK', chunkArray(data, 8));
                 })
                 .catch(err => {
                     console.log(err);

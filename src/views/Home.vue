@@ -2,8 +2,9 @@
     <div class="home">
         <div class="country-list-nav">
             <Search></Search>
-            <RegionSelect></RegionSelect>
+            <SelectRegion></SelectRegion>
         </div>
+
         <div class="country-list__grid">
 
             <CountryBox v-if="countriesChunk"
@@ -18,22 +19,23 @@
 
     import CountryBox from '@/components/CountryBox.vue'
     import Search from '@/components/Search.vue'
-    import RegionSelect from '@/components/RegionSelect.vue'
+    import SelectRegion from '@/components/SelectRegion.vue'
 
     export default {
         name: 'Home',
         components: {
             Search,
             CountryBox,
-            RegionSelect
+            SelectRegion
         },
         data() {
             return {}
         },
         computed: {
             countriesChunk() {
-                return this.$store.getters.getChunk(2)
-            }
+                return this.$store.getters.getChunk(0)
+            },
+
 
         },
 
