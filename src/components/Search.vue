@@ -90,6 +90,12 @@
         padding-left: 75px;
         background-color: var(--color-bg);
         color: var(--color-text);
+        width: 100%;
+        margin-bottom: 40px;
+        @include mq('md'){
+            margin-bottom: 0;
+            width: 480px;
+        }
     }
 
     .search__icon {

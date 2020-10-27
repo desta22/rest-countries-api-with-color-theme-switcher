@@ -19,18 +19,18 @@
                   <fa-icon class="pagination__dots-icon" :icon="['fas', 'ellipsis-h']"/>
             </span>
             <!--Page btn-->
-            <span v-for="item in chunksNumber" :key="item">
+            <span class="pagination__number" v-for="item in chunksNumber" :key="item">
 
-            <button
-                    v-if="visibleNumbersShow(item)"
+                <button
+                        v-if="visibleNumbersShow(item)"
 
-                    :disabled="currentPageIndex == item"
-                    class="pagination__btn"
-                    :class="{'selected': item == currentPageIndex}"
-                    @click="selectPage(item)"
-            >
-                {{item+1}}
-            </button>
+                        :disabled="currentPageIndex == item"
+                        class="pagination__btn number"
+                        :class="{'selected': item == currentPageIndex}"
+                        @click="selectPage(item)"
+                >
+                    {{item+1}}
+                </button>
             </span>
             <span v-if="showDots" class="pagination__dots">
                   <fa-icon class="pagination__dots-icon" :icon="['fas', 'ellipsis-h']"/>
@@ -137,8 +137,8 @@
                     this.visibleNumbers = shortenArr
 
 
-
                 } else {
+                    this.visibleNumbers = this.chunksNumber
                     this.showDots = false;
                 }
             },
@@ -251,11 +251,25 @@
             cursor: initial;
 
         }
+        &.number {
 
+        }
+    }
+
+    .pagination__number {
+        display: none;
+        @include mq('sm') {
+            display: block;
+        }
     }
 
     .pagination__dots {
         padding: 0 20px;
         line-height: 40px;
+        display: none;
+
+        @include mq('md') {
+            display: block;
+        }
     }
 </style>

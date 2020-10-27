@@ -50,7 +50,10 @@
         padding: 30px 0;
         background-color: var(--color-bg);
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.15);
-        margin-bottom: 50px;
+        margin-bottom: 30px;
+        @include mq('sm'){
+            margin-bottom: 50px;
+        }
     }
 
     .main-nav {
@@ -60,15 +63,22 @@
     }
 
     .logo-link {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 800;
         color: var(--color-text);
+        @include mq('sm'){
+            font-size: 24px;
+        }
     }
 
     .mode-link {
-        font-size: 16px;
+        white-space: nowrap;
+        font-size: 14px;
         font-weight: 600;
         color: var(--color-text);
+        @include mq('sm'){
+            font-size: 16px;
+        }
     }
 
     .mode-link__icon {

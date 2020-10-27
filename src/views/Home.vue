@@ -24,6 +24,7 @@
     import SelectRegion from '@/components/SelectRegion.vue'
     import Pagination from '@/components/Pagination.vue'
     import {isEmpty} from '../helper'
+
     export default {
         name: 'Home',
         components: {
@@ -34,16 +35,16 @@
         },
         data() {
             return {
-                pagination:{
-                    pages:5,
-                    page:2
+                pagination: {
+                    pages: 5,
+                    page: 2
                 }
             }
         },
-        mounted(){
+        mounted() {
 
             this.$store.dispatch("getCountries");
-          // console.log("his.$route.path: ", this.$route.path.query);
+            // console.log("his.$route.path: ", this.$route.path.query);
         },
         watch: {
             $route(to, from) {
@@ -57,7 +58,7 @@
 
                 return this.$store.getters.getChunk(this.pageIndex)
             },
-            pageIndex(){
+            pageIndex() {
                 return this.$store.getters.getPageIndex
             }
 
@@ -65,18 +66,22 @@
         },
 
 
-
     }
 </script>
 <style lang="scss">
-    .country-list-nav{
+    .country-list-nav {
         margin-bottom: 50px;
     }
-    .country-list-nav{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+    .country-list-nav {
+        display: block;
+        @include mq('sm') {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
+
     .country-list__grid {
         display: grid;
         grid-auto-rows: 1fr;

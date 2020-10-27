@@ -8,7 +8,7 @@
         </div>
 
         <div v-if="country" class="country__grid">
-            <div class="flag">
+            <div class="country__flag">
                 <img :src="country.flag" alt="">
             </div>
             <div>
@@ -46,9 +46,10 @@
                 <div class="borders__sec">
                     <h4 class="borders__sec-title">Border countries: </h4>
                     <div v-if="country.borders.length>0">
-                        <router-link class="btn btn-primary borders__btn small" v-for="(border, index) in country.borders"
+                        <router-link class="btn btn-primary borders__btn small"
+                                     v-for="(border, index) in country.borders"
                                      :key="index" :to="'/country/' + get_country(border).slug">
-                         {{get_country(border).name}}
+                            {{get_country(border).name}}
                         </router-link>
                     </div>
                 </div>
@@ -83,11 +84,21 @@
         padding: 20px 0 80px 0;
     }
 
+    .country__flag {
+        margin-bottom: 50px;
+        @include mq('md') {
+            margin-bottom: 0;
+        }
+    }
+
     .country-page__title {
         font-size: 24px;
         font-weight: 800;
-        margin-left: 35px;
         margin-bottom: 40px;
+        @include mq('md') {
+            margin-left: 35px;
+
+        }
     }
 
     .country-nav__icon {
@@ -95,39 +106,59 @@
     }
 
     .country-data {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        @include mq('md') {
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
         font-size: 16px;
         margin-bottom: 60px;
-        p{
+        p {
             margin-bottom: 15px;
         }
 
     }
 
     .country-data__col {
-        padding-left: 35px;
+        @include mq('md') {
+            padding-left: 35px;
+
+        }
     }
 
     .country__grid {
-        display: grid;
-        column-gap: 80px;
+        @include mq('md') {
+
+            display: grid;
+            column-gap: 80px;
+        }
 
         @include mq('md') {
             grid-template-columns: repeat(2, 1fr);
         }
     }
-    .borders__sec{
-        margin-left: 35px;
-        display: flex;
+
+    .borders__sec {
+        margin-bottom: 60px;
+        @include mq('md') {
+            margin-bottom: 0;
+            margin-left: 35px;
+            display: flex;
+        }
     }
-    .borders__sec-title{
+
+    .borders__sec-title {
         white-space: nowrap;
         padding-top: 10px;
         font-weight: 600;
         margin-right: 20px;
+        margin-bottom: 20px;
+        @include mq('md') {
+            margin-bottom: 0;
+        }
     }
-    .borders__btn{
+
+    .borders__btn {
         margin-bottom: 10px;
         margin-right: 10px;
     }
