@@ -1,20 +1,41 @@
 
-
+//@function hsl_to_rgb($hsl-color) {
+//  @return mix($hsl-color,$hsl-color);
+//}
 
 $dark_text_c:#fff;
-$dark_primary_c:hsl(209, 23%, 22%); // Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%)
+$dark_primary_c: hsl(208, 23%, 22%); // Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%)
 $dark_second_c: hsl(207, 26%, 17%);// Very Dark Blue (Dark Mode Background): hsl(207, 26%, 17%)
 $light_text_c:hsl(200, 15%, 8%) ; //Very Dark Blue (Light Mode Text): hsl(200, 15%, 8%)
-$light_primary_c: #fff  ; // Dark Gray (Light Mode Input): hsl(0, 0%, 52%)
-$light_second_c: #fafafa; //Very Light Gray (Light Mode Background): hsl(0, 0%, 98%)
+$light_primary_c:  #fafafa ; // Dark Gray (Light Mode Input): hsl(0, 0%, 52%)
+$light_second_c: #fff; //Very Light Gray (Light Mode Background): hsl(0, 0%, 98%)
+
+
+$grb_dark_text_c: (255, 255, 255);
+$grb_dark_primary_c: (43, 57, 69);
+$rgb_dark_second_c: (32, 44, 55);
+
+$rgb_light_text_c: (17, 21, 23);
+$rgb_light_primary_c:(250, 250, 250);
+$rgb_light_second_c:(255, 255, 255);
+
+
 :root {
   --color-el: #{$light_primary_c};
   --color-bg: #{$light_second_c};
   --color-text: #{$light_text_c};
+
+  --rgb-color-el:#{$rgb_light_primary_c};
+  --rgb-color-bg:#{$rgb_light_second_c};
+  --rgb-color-text:#{$rgb_light_text_c};
 }
 
 .dark {
   --color-el: #{$dark_primary_c};
   --color-bg: #{$dark_second_c};
   --color-text: #{$dark_text_c};
+
+  --rgb-color-el:#{$grb_dark_primary_c};
+  --rgb-color-bg:#{$rgb_dark_second_c};
+  --rgb-color-text:#{$grb_dark_text_c};
 }

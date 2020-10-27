@@ -9,7 +9,6 @@
 
 <script>
 
-    // @ is an alias to /src
     import HeaderComp from '@/components/HeaderComp.vue'
 
     export default {
@@ -20,17 +19,19 @@
         data() {
             return {
                 allCountries: [],
-                // isDark: false,
+
             }
         },
         created() {
-            this.$store.dispatch("getCountries");
+            if(this.$route.params.slug || this.$route.query.pageIndex){
+            this.$store.dispatch("getCountryRegionsList");
+
+
+            } else {
+                this.$store.dispatch("getCountries");
+            }
         },
-        methods: {
-            // toggleMode(){
-            //     this.isDark = !this.isDark
-            // }
-        }
+
     }
 </script>
 

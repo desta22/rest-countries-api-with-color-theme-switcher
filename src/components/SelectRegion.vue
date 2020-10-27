@@ -1,12 +1,10 @@
 <template>
     <div class="region-select-sec">
-        <!--RegionSelect-->
-        <!--{{regions}}-->
 
         <div class="dropdown" v-bind:class="{ open : isOpen }">
             <a href="#" class="btn btn-primary dropdown__btn"
                v-on-clickaway="away"
-               @click="toggleDropdown"
+               @click.prevent="toggleDropdown"
                @keydown.space.exact.prevent="toggleDropdown"
             >
                 {{selectTitle}}
@@ -16,7 +14,8 @@
 
                 <ul class="dropdown__menu" v-if="isOpen">
                     <li v-for="(region , index) in regionsList" :key="index">
-                        <a @click="selectRegion(region)">{{region.name}}</a>
+                        <a href="#" @click.prevent="selectRegion(region)">{{region.name}}</a>
+                        <!--<router-link :to="'/region/'+region.slug" >{{region.name}}</router-link>-->
                     </li>
                 </ul>
             </transition>
@@ -27,16 +26,17 @@
 
 <script>
     import {mixin as clickaway} from 'vue-clickaway';
+    import {capitalizeFirstLetter} from '../helper'
 
     export default {
         mixins: [clickaway],
         name: "RegionSelect",
 
+
         data() {
             return {
-                iconClass:'chevron-down',
+                iconClass: 'chevron-down',
                 isOpen: false,
-                selected: 'all',
                 selectTitle: 'Filter by Region',
                 regionsList: this.regionListArr(this.$store.getters.getRegions)
             }
@@ -50,23 +50,54 @@
             regions(newValue) {
                 this.regionsList = newValue
             },
-            isOpen(){
-                if(this.isOpen){
+            isOpen() {
+                if (this.isOpen) {
                     this.iconClass = 'chevron-up'
                 } else {
                     this.iconClass = 'chevron-down'
-
                 }
-            }
+            },
+
         },
+        mounted() {
+
+            if (this.$route.params.slug && !this.$route.query.pageIndex) {
+                // ovo je region adresa bex ?pageIndex=x
+
+                const slug = this.$route.params.slug;
+
+                const region = {name: capitalizeFirstLetter(slug), slug: slug};
+                this.setSelected(region)
+            } else if (this.$route.name === "Regio" && this.$route.query.pageIndex) {
+                const slug = this.$route.params.slug;
+                const region = {name: capitalizeFirstLetter(slug), slug: slug};
+                this.setSelected(region, this.$route.query.pageIndex)
+            }
+
+        },
+
         methods: {
+
+            setSelected(region, page_number = 0) {
+                const regions = this.regionListArr(this.$store.getters.getRegions);
+                console.log('page_number', page_number);
+                let filteredRegionList = [];
+                this.selectTitle = region.name;
+                filteredRegionList = regions.filter((e) => {
+                    return e.name !== region.name
+                });
+                filteredRegionList.unshift({name: 'Select all', slug: 'all'});
+                this.setRegion(region.slug);
+
+                this.$store.dispatch("getCountriesByRegion", this.$route.params.slug);
+                this.$store.dispatch('pageNum', page_number);
+                this.regionsList = filteredRegionList;
+            },
             setRegion(region) {
-                this.$store.dispatch("getCountriesByRegion", region);
-                // this.$store.dispatch.getCountriesByRegion('europe')
+                // this.$store.dispatch("getCountriesByRegion", region);
+
             },
-            setAllCountries() {
-                this.$store.dispatch("getCountries");
-            },
+
             selectRegion(region) {
                 this.toggleDropdown();
 
@@ -74,6 +105,8 @@
                 let filteredRegionList = [];
 
                 if (region.slug !== 'all') {
+
+                    this.$router.push({name: 'Region', params: {slug: region.slug}});
                     this.selectTitle = region.name;
                     // remove selected
                     filteredRegionList = regions.filter((e) => {
@@ -82,24 +115,21 @@
                     // add 'all' item
                     filteredRegionList.unshift({name: 'Select all', slug: 'all'});
                     this.setRegion(region.slug);
+                    this.$store.dispatch("getCountriesByRegion", region.slug);
 
                 } else {
+                    this.$router.push({name: 'Home'});
                     this.selectTitle = 'Filter by Region';
                     filteredRegionList = regions;
-                    this.setAllCountries();
                 }
-
+                this.$store.dispatch('pageNum', 0);
                 this.regionsList = filteredRegionList;
-
-
             },
             toggleDropdown() {
                 this.isOpen = !this.isOpen;
-
             },
             away: function () {
                 this.isOpen = false;
-
             },
             regionListArr(getRegions) {
                 let list = [];
@@ -107,10 +137,8 @@
                     const slug = item.toLowerCase();
                     return {name: item, slug: slug}
                 });
-
                 return list;
             }
-
         }
     }
 </script>
@@ -153,6 +181,7 @@
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.15);
         /*background-color: red;*/
         a {
+            color: var(--color-text);
             display: block;
             padding: 8px 25px;
             &:hover,

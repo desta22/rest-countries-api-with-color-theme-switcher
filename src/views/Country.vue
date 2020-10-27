@@ -1,11 +1,10 @@
 <template>
     <div>
         <div class="country-nav">
-
-        <a href="#" class="btn btn-primary" @click.prevent="$router.go(-1)">
-            <fa-icon class="country-nav__icon" :icon="['fas', 'arrow-left']"/>
-            Back
-        </a>
+            <a href="#" class="btn btn-primary" @click.prevent="$router.go(-1)">
+                <fa-icon class="country-nav__icon" :icon="['fas', 'arrow-left']"/>
+                Back
+            </a>
         </div>
 
         <div v-if="country" class="country__grid">
@@ -13,7 +12,9 @@
                 <img :src="country.flag" alt="">
             </div>
             <div>
-                <h1>{{country.name}}</h1>
+
+                <h1 class="country-page__title">{{country.name}}</h1>
+
                 <div class="country-data">
                     <div class="country-data__col">
                         <p><strong>Native Name: </strong>{{country.nativeName}}</p>
@@ -43,13 +44,13 @@
                 </div>
 
                 <div class="borders__sec">
-                    <strong>Border countries: </strong>
-                    <span v-if="country.borders.length>0">
-                        <router-link class="btn btn-primary small" v-for="(border, index) in country.borders"
+                    <h4 class="borders__sec-title">Border countries: </h4>
+                    <div v-if="country.borders.length>0">
+                        <router-link class="btn btn-primary borders__btn small" v-for="(border, index) in country.borders"
                                      :key="index" :to="'/country/' + get_country(border).slug">
                          {{get_country(border).name}}
                         </router-link>
-                    </span>
+                    </div>
                 </div>
 
             </div>
@@ -61,19 +62,11 @@
 <script>
     export default {
         name: "Country",
-        data() {
-            return {
-                // country:null,
-
-
-            }
-        },
         computed: {
             country() {
                 const alpha3Code = this.$route.params.alpha3Code.toUpperCase();
                 return this.$store.getters.getCountryById(alpha3Code)
             },
-
         },
         methods: {
             get_country(code) {
@@ -86,15 +79,29 @@
 </script>
 
 <style lang="scss">
-    .country-nav{
+    .country-nav {
         padding: 20px 0 80px 0;
     }
-    .country-nav__icon{
+
+    .country-page__title {
+        font-size: 24px;
+        font-weight: 800;
+        margin-left: 35px;
+        margin-bottom: 40px;
+    }
+
+    .country-nav__icon {
         margin-right: 10px;
     }
+
     .country-data {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        font-size: 16px;
+        margin-bottom: 60px;
+        p{
+            margin-bottom: 15px;
+        }
 
     }
 
@@ -104,12 +111,24 @@
 
     .country__grid {
         display: grid;
-        column-gap: 60px;
-        row-gap: 60px;
+        column-gap: 80px;
 
         @include mq('md') {
             grid-template-columns: repeat(2, 1fr);
         }
-
+    }
+    .borders__sec{
+        margin-left: 35px;
+        display: flex;
+    }
+    .borders__sec-title{
+        white-space: nowrap;
+        padding-top: 10px;
+        font-weight: 600;
+        margin-right: 20px;
+    }
+    .borders__btn{
+        margin-bottom: 10px;
+        margin-right: 10px;
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="country-box">
         <router-link :to="'/country/'+countryCode" class="country-box__link">
             <div class="country-box__flag" v-bind:style="{ backgroundImage: 'url(' + country.flag + ')' }">
-                <!--<img :src="country.flag" alt="">-->
+
             </div>
             <div class="country-box__body">
 
@@ -33,6 +33,7 @@
 
     }
     .country-box__link{
+        height: 100%;
         color: var(--color-text);
         display: block;
         border-radius: 5px;
