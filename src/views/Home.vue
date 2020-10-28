@@ -33,7 +33,9 @@
         },
 
         mounted() {
-            this.$store.dispatch("getCountries");
+            if(this.$store.state.countries.countriesAll.length === 0){
+                this.$store.dispatch("getCountries");
+            }
             if ( this.$route.query.pageIndex > 0) {
 
                 this.$store.dispatch('pageNum', this.$route.query.pageIndex - 1);

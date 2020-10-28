@@ -75,6 +75,16 @@
                 const slug = country.alpha3Code.toLowerCase();
                 return {name: country.name, slug: slug}
             }
+        },
+        mounted(){
+            this.country;
+            console.log(this.$route.params.alpha3Code);
+            console.log();
+            if(this.$store.state.countries.countriesAll.length === 0){
+                this.$store.dispatch("getCountries");
+            }
+            this.$store.getters.getCountryById(this.$route.params.alpha3Code)
+            // this.get_country()
         }
     }
 </script>

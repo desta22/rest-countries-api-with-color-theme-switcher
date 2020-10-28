@@ -37,12 +37,14 @@
             }
         },
         mounted() {
+            if(this.$store.state.countries.countriesAll.length === 0){
             if (this.$route.name === "Region" && this.$route.query.pageIndex) {
                 this.$store.dispatch("getCountriesByRegion", this.$route.params.slug);
                 this.$store.dispatch('pageNum', this.$route.query.pageIndex);
             } else if (this.$route.name === "Region") {
                 this.$store.dispatch("getCountriesByRegion", this.$route.params.slug);
                 this.$store.dispatch('pageNum', 0);
+            }
             }
         },
 
