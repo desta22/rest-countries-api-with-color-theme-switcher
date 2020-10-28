@@ -1,7 +1,6 @@
 <template>
     <div class="home">
 
-
         <div class="country-list-nav">
             <Search></Search>
             <SelectRegion selectedSlug="all"></SelectRegion>
@@ -13,17 +12,16 @@
                         :country="country">
             </CountryBox>
         </div>
-        <Pagination :pagination="pagination"></Pagination>
+        <Pagination></Pagination>
     </div>
 </template>
 
 <script>
 
     import CountryBox from '../components/CountryBox.vue'
-    import Search from '@/components/Search.vue'
-    import SelectRegion from '@/components/SelectRegion.vue'
-    import Pagination from '@/components/Pagination.vue'
-    import {isEmpty} from '../helper'
+    import Search from '../components/Search.vue'
+    import SelectRegion from '../components/SelectRegion.vue'
+    import Pagination from '../components/Pagination.vue'
 
     export default {
         name: 'Home',
@@ -33,39 +31,25 @@
             SelectRegion,
             Pagination
         },
-        data() {
-            return {
-                pagination: {
-                    pages: 5,
-                    page: 2
-                }
-            }
-        },
+
         mounted() {
-
             this.$store.dispatch("getCountries");
-            // console.log("his.$route.path: ", this.$route.path.query);
-        },
-        watch: {
-            $route(to, from) {
+            if ( this.$route.query.pageIndex > 0) {
 
-                this.$store.dispatch("getCountries");
-
+                this.$store.dispatch('pageNum', this.$route.query.pageIndex - 1);
+            } else {
+                this.$store.dispatch('pageNum', 0);
             }
         },
+
         computed: {
             countriesChunk() {
-
                 return this.$store.getters.getChunk(this.pageIndex)
             },
             pageIndex() {
                 return this.$store.getters.getPageIndex
             }
-
-
         },
-
-
     }
 </script>
 <style lang="scss">

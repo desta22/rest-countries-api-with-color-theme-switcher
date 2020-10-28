@@ -22,15 +22,8 @@
 
             }
         },
-        created() {
-            if(this.$route.params.slug || this.$route.query.pageIndex){
-            this.$store.dispatch("getCountryRegionsList");
 
 
-            } else {
-                this.$store.dispatch("getCountries");
-            }
-        },
 
     }
 </script>

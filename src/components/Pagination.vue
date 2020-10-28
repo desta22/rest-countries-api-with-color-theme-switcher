@@ -66,6 +66,7 @@
             }
         },
         computed: {
+
             chunksNumber() {
                 return Array.from(Array(this.$store.getters.getChunksNumber).keys())
             },
@@ -77,12 +78,14 @@
             },
         },
         watch: {
+
             chunksNumber(newValue) {
                 this.shortenPaginationList();
             },
             currentPageIndex() {
+
                 this.shortenPaginationList();
-                // TODO replace watching currentPageIndex with url query watching ?page=3 if no query 0
+
                 if (this.currentPageIndex === 0) {
                     this.prevPageIndex = 0
                 } else if (this.currentPageIndex >= this.chunksNumber.length - 1) {
@@ -96,23 +99,22 @@
             }
         },
         mounted() {
-            if (this.$route.query.pageIndex) {
-                console.log('Ima pageIndex');
-                this.$store.dispatch('pageNum', 0);
+
+            this.shortenPaginationList();
+            if (this.$route.query.pageIndex ) {
+
+                this.$store.dispatch('pageNum', this.$route.query.pageIndex);
+                this.shortenPaginationList();
             }
-
-
         },
         methods: {
             visibleNumbersShow(item) {
-
                 return this.visibleNumbers.includes(item)
-
             },
             shortenPaginationList() {
 
                 const totalPages = [...this.chunksNumber];
-                // const tpLength = totalPages.length;
+
                 const pageIndex = this.currentPageIndex;
 
                 const first5 = totalPages.slice(0, 5);

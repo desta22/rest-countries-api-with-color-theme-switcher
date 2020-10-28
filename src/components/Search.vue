@@ -92,8 +92,11 @@
         color: var(--color-text);
         width: 100%;
         margin-bottom: 40px;
-        @include mq('md'){
+        @include mq('sm') {
             margin-bottom: 0;
+        }
+        @include mq('md') {
+
             width: 480px;
         }
     }

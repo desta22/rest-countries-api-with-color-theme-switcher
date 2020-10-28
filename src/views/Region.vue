@@ -12,7 +12,7 @@
                         :country="country">
             </CountryBox>
         </div>
-        <Pagination :pagination="pagination"></Pagination>
+        <Pagination></Pagination>
     </div>
 </template>
 
@@ -21,7 +21,7 @@
     import Search from '../components/Search.vue'
     import SelectRegion from '../components/SelectRegion.vue'
     import Pagination from '../components/Pagination.vue'
-    import {isEmpty} from '../helper'
+
 
     export default {
         name: "Region",
@@ -33,10 +33,7 @@
         },
         data() {
             return {
-                pagination: {
-                    pages: 5,
-                    page: 2
-                }
+
             }
         },
         mounted() {
@@ -44,7 +41,6 @@
                 this.$store.dispatch("getCountriesByRegion", this.$route.params.slug);
                 this.$store.dispatch('pageNum', this.$route.query.pageIndex);
             } else if (this.$route.name === "Region") {
-
                 this.$store.dispatch("getCountriesByRegion", this.$route.params.slug);
                 this.$store.dispatch('pageNum', 0);
             }

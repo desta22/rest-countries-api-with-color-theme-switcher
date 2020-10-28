@@ -25,10 +25,11 @@ const countries = {
 
         countriesAll: [],
         countriesChunk: [],
-        regions: [],
-        selectedRegion: null,
+        // regions: [],
+
         chunkNumbers: 0,
         pageIndex: 0,
+
         // statesNames:[],
     },
     getters: {
@@ -41,9 +42,9 @@ const countries = {
         getCountryById: (state) => (id) => {
             return state.countriesAll.find(country => country.alpha3Code === id);
         },
-        getRegions(state) {
-            return state.regions
-        },
+        // getRegions(state) {
+        //     return state.regions
+        // },
         getAllCountries(state) {
             return state.countriesAll;
         },
@@ -55,9 +56,9 @@ const countries = {
         SET_ALL_COUNTRIES(state, data) {
             state.countriesAll = data
         },
-        SET_ALL_REGIONS(state, data) {
-            state.regions = data
-        },
+        // SET_ALL_REGIONS(state, data) {
+        //     state.regions = data
+        // },
         SET_COUNTRIES_CHUNK(state, data) {
             state.countriesChunk = data
         },
@@ -82,23 +83,23 @@ const countries = {
                 .then(res => {
 
                     commit('SET_ALL_COUNTRIES', res.data);
-                    commit('SET_ALL_REGIONS', extractRegions(res.data));
+                    // commit('SET_ALL_REGIONS', extractRegions(res.data));
                     commit('SET_COUNTRIES_CHUNK', chunkArray(res.data, 8));
                 })
                 .catch(err => {
                     console.log(err);
                 })
         },
-        getCountryRegionsList({commit}){
-            axios
-                .get('https://restcountries.eu/rest/v2/all')
-                .then(res => {
-                    commit('SET_ALL_REGIONS', extractRegions(res.data));
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        },
+        // getCountryRegionsList({commit}){
+        //     axios
+        //         .get('https://restcountries.eu/rest/v2/all')
+        //         .then(res => {
+        //             commit('SET_ALL_REGIONS', extractRegions(res.data));
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         })
+        // },
         pageNum({commit}, num) {
             commit('SET_PAGE_NUMBER', num)
 

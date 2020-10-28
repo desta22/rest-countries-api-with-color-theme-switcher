@@ -1,9 +1,8 @@
 <template>
     <div class="site-header">
         <div class="container">
-
             <div class="main-nav">
-                <router-link @click="resetPage" class="logo-link" to="/">Where in the world</router-link>
+                <router-link class="logo-link" to="/">Where in the world</router-link>
                 <a @click="toggleMode" class="mode-link">
                     <fa-icon class="mode-link__icon" :icon="['far', 'moon']"/>
                     Dark mode
@@ -24,14 +23,11 @@
                 isDark: false,
             }
         },
+
         methods: {
-            resetPage() {
 
-
-                this.$store.dispatch('pageNum', 0);
-            },
             toggleMode() {
-                console.log('from toggleMode');
+
                 this.isDark = !this.isDark;
                 // this.$emit('isDark', this.isDark)
                 if (this.isDark) {
@@ -41,7 +37,9 @@
                     document.body.classList.remove('dark')
                 }
             }
-        }
+        },
+
+
     }
 </script>
 
@@ -51,7 +49,7 @@
         background-color: var(--color-bg);
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.15);
         margin-bottom: 30px;
-        @include mq('sm'){
+        @include mq('sm') {
             margin-bottom: 50px;
         }
     }
@@ -66,7 +64,7 @@
         font-size: 18px;
         font-weight: 800;
         color: var(--color-text);
-        @include mq('sm'){
+        @include mq('sm') {
             font-size: 24px;
         }
     }
@@ -76,7 +74,7 @@
         font-size: 14px;
         font-weight: 600;
         color: var(--color-text);
-        @include mq('sm'){
+        @include mq('sm') {
             font-size: 16px;
         }
     }
