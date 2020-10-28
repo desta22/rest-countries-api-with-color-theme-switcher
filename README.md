@@ -1,5 +1,10 @@
+## Instalacija i pokretanje 
+1. preuzeti repo
+2. npm install
+3. npm run serve
 
-## Deployed on
+
+### Postavljeno na
 https://rest-countries-api-with-color-theme-switcher-xi.vercel.app/region/africa
 
 # Frontend Mentor - REST Countries API with color theme switcher
